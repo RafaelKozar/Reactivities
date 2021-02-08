@@ -1,24 +1,21 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { FormEvent, useContext, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
 import { IActivity } from "../../app/models/activity";
 import {v4 as uuid} from 'uuid';
+import ActivityStore from '../../app/stores/activityStore';
+import { observer } from "mobx-react-lite";
 
 
 interface IProps {
-  setEditMode: (editMode: boolean) => void;
-  activity: IActivity;
-  createActivity: (activity: IActivity) => void;
-  editActivity: (activity: IActivity) => void;
-  submitting : boolean;
+  activity: IActivity;    
 }
 
-export const ActivityForm: React.FC<IProps> = ({
-  setEditMode,
-  activity: initialFormState,
-  createActivity,
-  editActivity,
-  submitting
+const ActivityForm: React.FC<IProps> = ({
+  activity: initialFormState
 }) => {
+  const activityStore = useContext(ActivityStore);
+  const {createActivity, editActivity, submitting, cancelFormOpen} = activityStore
+  const [subtmit, setSubmmit] =  useState(false);
   const initilizeForm = () => {
     if (initialFormState) {
       return initialFormState;
@@ -39,7 +36,9 @@ export const ActivityForm: React.FC<IProps> = ({
 
   const handleSubmit = () =>  
   {
+    // setSubmmit(false);
     console.log(activity.id);
+    
     if(activity.id.length ===0){
       let newActivty  = {
         ...activity,
@@ -49,6 +48,7 @@ export const ActivityForm: React.FC<IProps> = ({
     } else {
       editActivity(activity);
     }
+    // setSubmmit(true);
 
   }
 
@@ -101,12 +101,12 @@ export const ActivityForm: React.FC<IProps> = ({
         <Button
          loading={submitting}
           floated="right"
-          positive
+          positive 
           type="submit"
           content="Submit"
-        ></Button>
+        />
         <Button
-          onClick={() => setEditMode(false)}
+          onClick={cancelFormOpen}
           floated="right"
           type="button"
           content="Cancel"
@@ -115,3 +115,5 @@ export const ActivityForm: React.FC<IProps> = ({
     </Segment>
   );
 };
+
+export default  observer(ActivityForm);
