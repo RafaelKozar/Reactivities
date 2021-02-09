@@ -10,7 +10,7 @@ interface DetailsParams {
 }
 
 const ActivityDetails: React.FC<RouteComponentProps<DetailsParams>> = ({
-  match,
+  match, history
 }) => {
   const activityStore = useContext(ActivityStore);
   const {
@@ -53,7 +53,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailsParams>> = ({
             <Button
               basic
               color="grey"
-              onClick={cancelFormOpen}
+              onClick={() => history.push('/activities')}
               content="Cancel"
             />
           </Button.Group>
