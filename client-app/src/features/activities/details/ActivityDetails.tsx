@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
 import { Button, Card, Image } from "semantic-ui-react";
 import { LoadingComponent } from "../../../app/layout/LoadingComponent";
 import ActivityStore from "../../../app/stores/activityStore";
@@ -47,7 +48,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailsParams>> = ({
             <Button
               basic
               color="blue"
-              onClick={() => openEditForm(activity!.id)}
+              as={Link} to={`/manage/${activity.id}`}
               content="Edit"
             />
             <Button
