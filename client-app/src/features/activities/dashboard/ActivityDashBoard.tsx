@@ -1,14 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Grid } from "semantic-ui-react";
-import  ActivityForm  from "../../form/ActivityForm";
-import  ActivityDetails  from "../details/ActivityDetails";
 import ActivityList from "./ActivityList";
-import ActivityStore from "../../../app/stores/activityStore"; 
 import { observer } from "mobx-react-lite";
 
- const ActivityDashBoard: React.FC = () => {
-  const activityStore = useContext(ActivityStore);
-  const {editMode, activity} = activityStore;
+ const ActivityDashBoard: React.FC = () => { 
+  
   return (
     <Grid>
       <Grid.Column width={10}>
