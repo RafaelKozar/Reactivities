@@ -18,7 +18,8 @@ const ActivityForm: React.FC<RouteComponentProps<DetailsParamas>> = ({match}) =>
     submitting,
     cancelFormOpen,
     activity : initialFormState,
-    loadActivity
+    loadActivity,
+    clearActvity
   } = activityStore;
 
   const [subtmit, setSubmmit] = useState(false);
@@ -27,7 +28,11 @@ const ActivityForm: React.FC<RouteComponentProps<DetailsParamas>> = ({match}) =>
     if(match.params.id){
       loadActivity(match.params.id).then(() => initialFormState &&  setActivity(initialFormState))
     }
-  });
+
+    return  () => {
+      clearActvity();
+    };
+  }, [loadActivity, match.params.id, clearActvity, initialFormState]);
 
  
 
