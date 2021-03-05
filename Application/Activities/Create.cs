@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain;
@@ -31,6 +32,7 @@ namespace Application.Activities
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                
                 var activity = new Activity
                 {
                     Id = request.Id,
@@ -41,6 +43,9 @@ namespace Application.Activities
                     City = request.City,
                     Venue = request.Venue
                 };
+
+                if(string.IsNullOrEmpty(activity.Title))
+                    throw new Exception("HHEHE");
 
                 _context.Activities.Add(activity);
                 var success = await _context.SaveChangesAsync() > 0;
