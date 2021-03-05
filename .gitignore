@@ -3,3 +3,6 @@ obj
 .vscode
 .appsettings.json
 *.db
+StudentAssets/
+StudentAssets.zip
+.vs/
