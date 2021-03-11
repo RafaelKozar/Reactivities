@@ -1,6 +1,8 @@
+using API.Extension;
 using Application.Activities;
 using Application.Core;
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,28 +18,21 @@ namespace API
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(opt => 
+            services.AddControllers().AddFluentValidation(config =>
             {
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                config.RegisterValidatorsFromAssemblyContaining<Create>();
+
             });
-            services.AddCors(opt => 
-            {
-                opt.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
-                });  
-            });
-            services.AddMediatR(typeof(List.Handler).Assembly);
-            services.AddAutoMapper((typeof(MappingProfiles).Assembly));            
-            services.AddControllers();            
+            services.AddApplicationServices(_configuration);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,10 +50,10 @@ namespace API
             app.UseAuthorization();
 
             app.UseCors("CorsPolicy");
-            
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();                
+                endpoints.MapControllers();
             });
         }
     }
