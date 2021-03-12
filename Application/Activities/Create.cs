@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Core;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -11,7 +12,7 @@ namespace Application.Activities
 {
     public class Create
     {
-        public class  Command : IRequest
+        public class  Command : IRequest<Result<Unit>>
         {
             public Activity activity { get; set; }         
         }
@@ -24,7 +25,7 @@ namespace Application.Activities
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
 
@@ -33,14 +34,15 @@ namespace Application.Activities
                 this._context = context;
 
             }
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 _context.Activities.Add(request.activity);
-                var success = await _context.SaveChangesAsync() > 0;
+                var result = await _context.SaveChangesAsync() > 0;
 
-                if(success) return Unit.Value;
+                if(!result)
+                    return Result<Unit>.Failure("Failed to create activity");
 
-                throw new Exception("Problem saving changes");
+                return Result<Unit>.Success(Unit.Value);                
             }
         }
     }
