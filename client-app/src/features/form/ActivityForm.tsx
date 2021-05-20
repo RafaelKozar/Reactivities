@@ -5,13 +5,14 @@ import { v4 as uuid } from "uuid";
 import ActivityStore from "../../app/stores/activityStore";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router-dom";
+import { useStore } from "../../app/stores/store";
 
 interface DetailsParamas {
   id: string;
 }
 
 const ActivityForm: React.FC<RouteComponentProps<DetailsParamas>> = ({ match, history }) => {
-  const activityStore = useContext(ActivityStore);
+  const activityStore = useStore();
   const {
     createActivity,
     editActivity,

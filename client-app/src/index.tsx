@@ -6,13 +6,16 @@ import App from './app/layout/App';
 import 'semantic-ui-css/semantic.min.css';
 import * as serviceWorker from './serviceWorker';
 import ScrollToTop from './app/layout/ScrollToTop';
+import { storeee, StoreContext } from './app/stores/store';
 
 ReactDOM.render(
+    <StoreContext.Provider value={storeee}>
     <BrowserRouter>
     <ScrollToTop>
       <App />
     </ScrollToTop>
-    </BrowserRouter>,
+    </BrowserRouter>
+    </StoreContext.Provider>,
   
   document.getElementById('root')
 );

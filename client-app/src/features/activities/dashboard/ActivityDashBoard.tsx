@@ -4,15 +4,9 @@ import ActivityList from "./ActivityList";
 import { observer } from "mobx-react-lite";
 import ActivityStore from "../../../app/stores/activityStore";
 import {LoadingComponent} from "../../../app/layout/LoadingComponent";
+import { useStore } from "../../../app/stores/store";
 
- const ActivityDashBoard: React.FC = () => { 
-  const activityStore = useContext(ActivityStore)
-
-  useEffect(() => {
-    activityStore.loadActivities();
-  }, [activityStore]);
-
-  if (activityStore.loadingInitial) return <LoadingComponent content="Loading activities" />  
+ const ActivityDashBoard: React.FC = () => {     
   return (
     <Grid>
       <Grid.Column width={10}>

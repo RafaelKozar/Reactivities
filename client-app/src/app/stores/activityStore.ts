@@ -1,18 +1,21 @@
-import { action, makeObservable, observable, computed, configure, runInAction } from "mobx";
+import { configure, runInAction, makeAutoObservable } from "mobx";
 import { createContext, SyntheticEvent } from "react";
 import agent from "../api/agent";
 import { IActivity } from "../models/activity";
 
-configure({ enforceActions: 'always' });
+export default class ActivityStore {
 
-class ActivityStore {
-    @observable activityRegistry = new Map();    
-    @observable activity: IActivity | null = null;
-    @observable loadingInitial = false;    
-    @observable submitting = false;
-    @observable target = '';
+    activityRegistry = new Map();    
+    activity: IActivity | null = null;
+    loadingInitial = false;    
+    submitting = false;
+    target = '';
 
-    @computed get activitiesByDate() {        
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    get activitiesByDate() {        
         return this.groupActivitiesByDate(Array.from(this.activityRegistry.values()));
     }
 
@@ -25,11 +28,9 @@ class ActivityStore {
         }, {} as {[key : string] : IActivity[]}));
     }
 
-    constructor() {
-        makeObservable(this);
-    }
+   
 
-    @action loadActivities = async () => {
+    loadActivities = async () => {
         this.loadingInitial = true;
         try {
             const activities = await agent.Activities.list();
@@ -51,7 +52,7 @@ class ActivityStore {
         }
     };
 
-    @action loadActivity = async (id : string) => {
+    loadActivity = async (id : string) => {
         let activity = this.getActivity(id);
         if(activity) {
             this.activity = activity;
@@ -74,7 +75,7 @@ class ActivityStore {
         }
     }
 
-    @action clearActvity = () => {
+    clearActvity = () => {
         this.activity = null;
     }
 
@@ -82,7 +83,7 @@ class ActivityStore {
         return this.activityRegistry.get(id);
     }
 
-    @action createActivity = async (activity: IActivity) => {
+    createActivity = async (activity: IActivity) => {
         this.submitting = true;
         try {
             await agent.Activities.create(activity);
@@ -99,7 +100,7 @@ class ActivityStore {
         }
     }
 
-    @action editActivity = async (activity: IActivity) => {
+    editActivity = async (activity: IActivity) => {
         this.submitting = true;
         try {
             await agent.Activities.update(activity);
@@ -119,7 +120,7 @@ class ActivityStore {
         }
     }
 
-    @action deleteActivity = async (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
+    deleteActivity = async (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
         this.submitting = true;
         this.target = event.currentTarget.name;
         try {
@@ -142,4 +143,4 @@ class ActivityStore {
     }
 }
 
-export default createContext(new ActivityStore())
+// export default createContext(new ActivityStore())

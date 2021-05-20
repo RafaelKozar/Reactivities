@@ -4,6 +4,7 @@ import { RouteComponentProps } from "react-router";
 import { Grid } from "semantic-ui-react";
 import { LoadingComponent } from "../../../app/layout/LoadingComponent";
 import ActivityStore from "../../../app/stores/activityStore";
+import { useStore } from "../../../app/stores/store";
 import  ActivityDetailedChat  from "./ActivityDetailedChat";
 import  ActivityDetailedHeader  from "./ActivityDetailedHeader";
 import  ActivityDetailedInfo from "./ActivityDetailedInfo";
@@ -15,7 +16,7 @@ interface DetailsParams {
 
 const ActivityDetails: React.FC<RouteComponentProps<DetailsParams>> = ({
   match}) => {
-  const activityStore = useContext(ActivityStore);
+  const activityStore = useStore();
   const {
     activity,    
     loadActivity,
