@@ -6,7 +6,7 @@ import ActivityStore from "../../../app/stores/activityStore";
 import {LoadingComponent} from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
 
- const ActivityDashBoard: React.FC = () => {     
+ export default observer(function ActivityDashBoard(){     
   return (
     <Grid>
       <Grid.Column width={10}>
@@ -17,6 +17,5 @@ import { useStore } from "../../../app/stores/store";
       </Grid.Column>
     </Grid>
   );
-};
+});
 
-export default observer(ActivityDashBoard);

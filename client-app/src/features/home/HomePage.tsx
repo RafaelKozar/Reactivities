@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 // import LoginForm from '../user/LoginForm';
 // import RegisterForm from '../user/RegisterForm';
 
-const HomePage = () => {
+export default function HomePage() {
   const token = window.localStorage.getItem('jwt');
 //   const rootStore = useContext(RootStoreContext);
 //   const { user, isLoggedIn } = rootStore.userStore;
@@ -47,4 +47,3 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;

@@ -11,7 +11,7 @@ interface DetailsParamas {
   id: string;
 }
 
-const ActivityForm: React.FC<RouteComponentProps<DetailsParamas>> = ({ match, history }) => {
+export default observer(function ActivityForm({ match, history } : RouteComponentProps<DetailsParamas>){
   const activityStore = useStore();
   const {
     createActivity,
@@ -128,6 +128,6 @@ const ActivityForm: React.FC<RouteComponentProps<DetailsParamas>> = ({ match, hi
     </Grid>
 
   );
-};
+});
 
-export default observer(ActivityForm);
+

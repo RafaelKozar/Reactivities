@@ -5,7 +5,7 @@ import ActivityStore from '../../../app/stores/activityStore';
 import { useStore } from "../../../app/stores/store";
 import { ActivityListItem } from "./ActivityListItem";
 
-const ActivityList: React.FC = () => {
+export default observer(function ActivityList(){
   const activityStore = useStore();
   const { activitiesByDate } = activityStore;
   return (
@@ -27,6 +27,6 @@ const ActivityList: React.FC = () => {
     </Fragment>
 
   );
-};
+});
 
-export default observer(ActivityList);
+
