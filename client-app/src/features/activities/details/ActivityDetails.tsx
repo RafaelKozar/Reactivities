@@ -1,21 +1,16 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect } from "react";
-import { RouteComponentProps } from "react-router";
+import React, {  useEffect } from "react";
+import { useParams } from "react-router";
 import { Grid } from "semantic-ui-react";
 import { LoadingComponent } from "../../../app/layout/LoadingComponent";
-import ActivityStore from "../../../app/stores/activityStore";
 import { useStore } from "../../../app/stores/store";
 import  ActivityDetailedChat  from "./ActivityDetailedChat";
 import  ActivityDetailedHeader  from "./ActivityDetailedHeader";
 import  ActivityDetailedInfo from "./ActivityDetailedInfo";
 import  ActivityDetailedSidebar from "./ActivityDetailedSidebar";
 
-interface DetailsParams {
-  id: string;
-}
 
-const ActivityDetails: React.FC<RouteComponentProps<DetailsParams>> = ({
-  match}) => {
+export default observer(function ActivityDetails(){
   const activityStore = useStore();
   const {
     activity,    
@@ -23,9 +18,13 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailsParams>> = ({
     loadingInitial,
   } = activityStore;
 
+  const {id} = useParams<{id:string}>();
+
   useEffect(() => {
-    loadActivity(match.params.id);
-  }, [loadActivity, match.params.id]);
+
+    if(id) loadActivity(id);    
+
+  }, [loadActivity, id]);
 
   if(loadingInitial || !activity) return <LoadingComponent content='Loading component' />
 
@@ -44,6 +43,6 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailsParams>> = ({
 
     </div>
   );
-};
+});
 
-export default observer(ActivityDetails);
+
