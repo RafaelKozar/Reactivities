@@ -93,7 +93,7 @@ export default observer(function ActivityForm({ match, history } : RouteComponen
             <Form.Input
               onChange={handleInputChange}
               name="date"
-              type="datetime-local"
+              type="date"
               placeholder="Date"
               value={activity.date}
             />

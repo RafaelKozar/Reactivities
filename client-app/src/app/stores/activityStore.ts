@@ -36,8 +36,7 @@ export default class ActivityStore {
             const activities = await agent.Activities.list();
             runInAction(() => {
                 activities.forEach((x) => {
-                    x.date = x.date.split('.')[0];
-                    this.activityRegistry.set(x.id, x);
+                    this.setActivity(x);                    
                 });
                 this.loadingInitial = false;
             });
@@ -55,7 +54,7 @@ export default class ActivityStore {
     loadActivity = async (id : string) => {
         let activity = this.getActivity(id);
         if(activity) {
-            this.activity = activity;
+            this.activity = activity;            
         }else {
             this.loadingInitial = true;
             try
@@ -140,6 +139,11 @@ export default class ActivityStore {
 
             console.log(err);
         }
+    }
+
+    setActivity = (activity: IActivity) => {
+        activity.date = activity.date.split('T')[0];
+        this.activityRegistry.set(activity.id, activity);
     }
 }
 
