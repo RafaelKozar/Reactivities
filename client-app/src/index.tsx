@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, Router} from 'react-router-dom';
 import './app/layout/styles.css';
 import App from './app/layout/App';
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -9,14 +9,17 @@ import 'react-calendar/dist/Calendar.css'
 import * as serviceWorker from './serviceWorker';
 import ScrollToTop from './app/layout/ScrollToTop';
 import { storeee, StoreContext } from './app/stores/store';
+import {createBrowserHistory} from 'history'
+
+export const history = createBrowserHistory();
 
 ReactDOM.render(
     <StoreContext.Provider value={storeee}>
-    <BrowserRouter>
+    <Router history={history}> 
     <ScrollToTop>
       <App />
     </ScrollToTop>
-    </BrowserRouter>
+    </Router>
     </StoreContext.Provider>,
   
   document.getElementById('root')
