@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { config } from 'process';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import { IActivity } from '../models/activity';
@@ -19,10 +20,14 @@ axios.interceptors.response.use(async response => {
     await sleep(3000);
     return response;
 }, (err : AxiosError) => {
-    const {data, status} = err.response!;
-
+    const {data, status, config} = err.response!;
+    
     switch(status){
         case 400:
+            if(config.method === 'get' && data.errors.hasOwnProperty('id'))
+            {
+                history.push('/not-found');
+            }
             if(data.errors){
                 const modalStateErrors = [];
                 for (const key in data.errors) {

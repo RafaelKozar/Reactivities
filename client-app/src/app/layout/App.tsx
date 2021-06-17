@@ -40,7 +40,7 @@ function App() {
               <Route key={location.key} path={['/createActivity', '/manage/:id']} component={ActivityForm} />
               <Route path='/errors' component={TestErrors} />
               <Route path='/server-error' component={ServerError} />
-              <Route component={NotFound} />
+              <Route component={NotFound}  path='/not-found'/>
             </Switch>
           </Container>
         </Fragment>
