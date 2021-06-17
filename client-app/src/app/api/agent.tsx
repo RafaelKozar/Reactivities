@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import { IActivity } from '../models/activity';
+import { storeee } from '../stores/store';
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -42,7 +43,8 @@ axios.interceptors.response.use(async response => {
             history.push('/not-found');
             break;
         case 500:
-            toast.error('Server error');
+            storeee.commonStore.setServerError(data);
+            history.push('/server-error');
             break;
     }
 });

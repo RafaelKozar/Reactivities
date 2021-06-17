@@ -12,7 +12,7 @@ interface DetailsParamas {
 }
 
 export default observer(function ActivityForm({ match, history } : RouteComponentProps<DetailsParamas>){
-  const activityStore = useStore();
+  const activityStore = useStore().activityStore;
   const {
     createActivity,
     editActivity,

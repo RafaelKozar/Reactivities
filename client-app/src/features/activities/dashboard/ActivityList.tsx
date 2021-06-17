@@ -6,7 +6,7 @@ import { useStore } from "../../../app/stores/store";
 import { ActivityListItem } from "./ActivityListItem";
 
 export default observer(function ActivityList(){
-  const activityStore = useStore();
+  const activityStore = useStore().activityStore;
   const { activitiesByDate } = activityStore;
   return (
     <Fragment>

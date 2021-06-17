@@ -11,7 +11,7 @@ import  ActivityDetailedSidebar from "./ActivityDetailedSidebar";
 
 
 export default observer(function ActivityDetails(){
-  const activityStore = useStore();
+  const activityStore = useStore().activityStore;
   const {
     activity,    
     loadActivity,
