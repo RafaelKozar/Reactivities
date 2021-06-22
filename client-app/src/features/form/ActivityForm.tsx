@@ -10,6 +10,7 @@ import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import { values } from "mobx";
 import MyTextInput from "../../app/common/form/MyTextInput";
+import MyTextArea from "../../app/common/form/MyTextArea";
 
 interface DetailsParamas {
   id: string;
@@ -95,8 +96,9 @@ export default observer(function ActivityForm({ match, history }: RouteComponent
                   name="title"
                   placeholder="Title"
                 />
-                <MyTextInput
+                <MyTextArea
                   name="description"
+                  rows={3}
                   placeholder="Description"
                 />
                 <MyTextInput
