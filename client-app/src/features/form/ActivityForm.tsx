@@ -6,6 +6,8 @@ import ActivityStore from "../../app/stores/activityStore";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router-dom";
 import { useStore } from "../../app/stores/store";
+import { Formik } from "formik";
+import { values } from "mobx";
 
 interface DetailsParamas {
   id: string;
@@ -43,87 +45,92 @@ export default observer(function ActivityForm({ match, history } : RouteComponen
     };
   }, [loadActivity, match.params.id, clearActvity, initialFormState, activity.id.length]);
 
-  const handleSubmit = () => {
-    // setSubmmit(false);
-    console.log(activity.id);
+  // const handleSubmit = () => {
+  //   // setSubmmit(false);
+  //   console.log(activity.id);
 
-    if (activity.id.length === 0) {
-      let newActivty = {
-        ...activity,
-        id: uuid(),
-      };
-      createActivity(newActivty).then(() => history.push(`/activities/${newActivty.id}`));
-    } else {
-      editActivity(activity).then(() => history.push(`/activities/${activity.id}`));;
-    }
-    // setSubmmit(true);
-  };
+  //   if (activity.id.length === 0) {
+  //     let newActivty = {
+  //       ...activity,
+  //       id: uuid(),
+  //     };
+  //     createActivity(newActivty).then(() => history.push(`/activities/${newActivty.id}`));
+  //   } else {
+  //     editActivity(activity).then(() => history.push(`/activities/${activity.id}`));;
+  //   }
+  //   // setSubmmit(true);
+  // };
 
-  const handleInputChange = (
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.currentTarget;
-    setActivity({ ...activity, [name]: value });
-  };
+  // const handleChange = (
+  //   event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { name, value } = event.currentTarget;
+  //   setActivity({ ...activity, [name]: value });
+  // };
 
   return (
     <Grid>
       <Grid.Column width={10}>
-        <Segment clearing>
-          <Form onSubmit={handleSubmit}>
-            <Form.Input
-              onChange={handleInputChange}
-              name="title"
-              placeholder="Title"
-              value={activity.title}
-            />
-            <Form.TextArea
-              onChange={handleInputChange}
-              name="description"
-              rows={2}
-              placeholder="Description"
-              value={activity.description}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name="category"
-              placeholder="Category"
-              value={activity.category}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name="date"
-              type="date"
-              placeholder="Date"
-              value={activity.date}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name="city"
-              placeholder="City"
-              value={activity.city}
-            />
-            <Form.Input
-              onChange={handleInputChange}
-              name="venue"
-              placeholder="Venue"
-              value={activity.venue}
-            />
-            <Button
-              loading={submitting}
-              floated="right"
-              positive
-              type="submit"
-              content="Submit"
-            />
-            <Button
-              onClick={() => history.push('/activities')}
-              floated="right"
-              type="button"
-              content="Cancel"
-            ></Button>
-          </Form>
-        </Segment>
+        <Formik enableReinitialize initialValues={activity} onSubmit={values => console.log(values)}>
+        {({values: activity, handleChange, handleSubmit}) => (
+            <Segment clearing>
+            <Form onSubmit={handleSubmit}>
+              <Form.Input
+                onChange={handleChange}
+                name="title"
+                placeholder="Title"
+                value={activity.title}
+              />
+              <Form.TextArea
+                onChange={handleChange}
+                name="description"
+                rows={2}
+                placeholder="Description"
+                value={activity.description}
+              />
+              <Form.Input
+                onChange={handleChange}
+                name="category"
+                placeholder="Category"
+                value={activity.category}
+              />
+              <Form.Input
+                onChange={handleChange}
+                name="date"
+                type="date"
+                placeholder="Date"
+                value={activity.date}
+              />
+              <Form.Input
+                onChange={handleChange}
+                name="city"
+                placeholder="City"
+                value={activity.city}
+              />
+              <Form.Input
+                onChange={handleChange}
+                name="venue"
+                placeholder="Venue"
+                value={activity.venue}
+              />
+              <Button
+                loading={submitting}
+                floated="right"
+                positive
+                type="submit"
+                content="Submit"
+              />
+              <Button
+                onClick={() => history.push('/activities')}
+                floated="right"
+                type="button"
+                content="Cancel"
+              ></Button>
+            </Form>
+          </Segment>
+        )}
+        </Formik>
+      
       </Grid.Column>
     </Grid>
 

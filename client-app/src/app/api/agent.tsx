@@ -24,6 +24,10 @@ axios.interceptors.response.use(async response => {
     
     switch(status){
         case 400:
+            if(typeof data === 'string')
+            {
+                toast.error(data);
+            }
             if(config.method === 'get' && data.errors.hasOwnProperty('id'))
             {
                 history.push('/not-found');
@@ -36,9 +40,7 @@ axios.interceptors.response.use(async response => {
                     }
                 }
                 throw modalStateErrors.flat();
-            } else {
-                toast.error(data);
-            }
+            } 
     
             break;
         case 401:
