@@ -1,19 +1,21 @@
 import React, { FormEvent, useContext, useEffect, useState } from "react";
-import { Button, Form, Grid, Segment } from "semantic-ui-react";
+import { Button, Grid, Label, Segment } from "semantic-ui-react";
 import { IActivity } from "../../app/models/activity";
 import { v4 as uuid } from "uuid";
 import ActivityStore from "../../app/stores/activityStore";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router-dom";
 import { useStore } from "../../app/stores/store";
-import { Formik } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
+import * as Yup from 'yup';
 import { values } from "mobx";
+import MyTextInput from "../../app/common/form/MyTextInput";
 
 interface DetailsParamas {
   id: string;
 }
 
-export default observer(function ActivityForm({ match, history } : RouteComponentProps<DetailsParamas>){
+export default observer(function ActivityForm({ match, history }: RouteComponentProps<DetailsParamas>) {
   const activityStore = useStore().activityStore;
   const {
     createActivity,
@@ -34,6 +36,15 @@ export default observer(function ActivityForm({ match, history } : RouteComponen
     city: "",
     venue: "",
   });
+
+  const validationSchema = Yup.object({
+    title: Yup.string().required("The activity is required"),
+    description: Yup.string().required("The description is required"),
+    category: Yup.string().required(),
+    date: Yup.string().required(),
+    venue: Yup.string().required(),
+    city: Yup.string().required()    
+  })
 
   useEffect(() => {
     if (match.params.id && activity.id.length === 0) {
@@ -71,66 +82,57 @@ export default observer(function ActivityForm({ match, history } : RouteComponen
   return (
     <Grid>
       <Grid.Column width={10}>
-        <Formik enableReinitialize initialValues={activity} onSubmit={values => console.log(values)}>
-        {({values: activity, handleChange, handleSubmit}) => (
+        <Formik
+          validationSchema={validationSchema}
+          enableReinitialize
+          initialValues={activity}
+          onSubmit={values => console.log(values)}>
+          {({ values: activity, handleChange, handleSubmit }) => (
             <Segment clearing>
-            <Form onSubmit={handleSubmit}>
-              <Form.Input
-                onChange={handleChange}
-                name="title"
-                placeholder="Title"
-                value={activity.title}
-              />
-              <Form.TextArea
-                onChange={handleChange}
-                name="description"
-                rows={2}
-                placeholder="Description"
-                value={activity.description}
-              />
-              <Form.Input
-                onChange={handleChange}
-                name="category"
-                placeholder="Category"
-                value={activity.category}
-              />
-              <Form.Input
-                onChange={handleChange}
-                name="date"
-                type="date"
-                placeholder="Date"
-                value={activity.date}
-              />
-              <Form.Input
-                onChange={handleChange}
-                name="city"
-                placeholder="City"
-                value={activity.city}
-              />
-              <Form.Input
-                onChange={handleChange}
-                name="venue"
-                placeholder="Venue"
-                value={activity.venue}
-              />
-              <Button
-                loading={submitting}
-                floated="right"
-                positive
-                type="submit"
-                content="Submit"
-              />
-              <Button
-                onClick={() => history.push('/activities')}
-                floated="right"
-                type="button"
-                content="Cancel"
-              ></Button>
-            </Form>
-          </Segment>
-        )}
+              <Form className='ui form' onSubmit={handleSubmit}>
+                <MyTextInput name='title' placeholder='Title' />
+                <MyTextInput
+                  name="title"
+                  placeholder="Title"
+                />
+                <MyTextInput
+                  name="description"
+                  placeholder="Description"
+                />
+                <MyTextInput
+                  name="category"
+                  placeholder="Category"
+                />
+                <MyTextInput
+                  name="date"                  
+                  placeholder="Date"
+                />
+                <MyTextInput
+                  name="city"
+                  placeholder="City"
+                />
+                <MyTextInput
+                  name="venue"
+                  placeholder="Venue"
+                />
+                <Button
+                  loading={submitting}
+                  floated="right"
+                  positive
+                  type="submit"
+                  content="Submit"
+                />
+                <Button
+                  onClick={() => history.push('/activities')}
+                  floated="right"
+                  type="button"
+                  content="Cancel"
+                ></Button>
+              </Form>
+            </Segment>
+          )}
         </Formik>
-      
+
       </Grid.Column>
     </Grid>
 
