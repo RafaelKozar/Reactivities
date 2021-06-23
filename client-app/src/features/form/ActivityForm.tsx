@@ -11,6 +11,8 @@ import * as Yup from 'yup';
 import { values } from "mobx";
 import MyTextInput from "../../app/common/form/MyTextInput";
 import MyTextArea from "../../app/common/form/MyTextArea";
+import MySelectInput from "../../app/common/form/MySelectInput";
+import { categoryOptions } from "../../app/common/options/categoryOptions";
 
 interface DetailsParamas {
   id: string;
@@ -101,7 +103,8 @@ export default observer(function ActivityForm({ match, history }: RouteComponent
                   rows={3}
                   placeholder="Description"
                 />
-                <MyTextInput
+                <MySelectInput
+                  options={categoryOptions}
                   name="category"
                   placeholder="Category"
                 />
