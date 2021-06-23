@@ -13,6 +13,7 @@ import MyTextInput from "../../app/common/form/MyTextInput";
 import MyTextArea from "../../app/common/form/MyTextArea";
 import MySelectInput from "../../app/common/form/MySelectInput";
 import { categoryOptions } from "../../app/common/options/categoryOptions";
+import MyDateInput from "../../app/common/form/MyDateInput";
 
 interface DetailsParamas {
   id: string;
@@ -35,7 +36,7 @@ export default observer(function ActivityForm({ match, history }: RouteComponent
     title: "",
     category: "",
     description: "",
-    date: "",
+    date: null,
     city: "",
     venue: "",
   });
@@ -108,9 +109,12 @@ export default observer(function ActivityForm({ match, history }: RouteComponent
                   name="category"
                   placeholder="Category"
                 />
-                <MyTextInput
+                <MyDateInput
                   name="date"                  
-                  placeholder="Date"
+                  placeholderText="Date"
+                  showTimeSelect
+                  timeCaption='time'
+                  dateFormat='MMMM d, yyyy h:mm aa'
                 />
                 <MyTextInput
                   name="city"
