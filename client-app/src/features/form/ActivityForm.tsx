@@ -1,5 +1,5 @@
 import React, { FormEvent, useContext, useEffect, useState } from "react";
-import { Button, Grid, Label, Segment } from "semantic-ui-react";
+import { Button, Grid, Header, Label, Segment } from "semantic-ui-react";
 import { IActivity } from "../../app/models/activity";
 import { v4 as uuid } from "uuid";
 import ActivityStore from "../../app/stores/activityStore";
@@ -45,7 +45,7 @@ export default observer(function ActivityForm({ match, history }: RouteComponent
     title: Yup.string().required("The activity is required"),
     description: Yup.string().required("The description is required"),
     category: Yup.string().required(),
-    date: Yup.string().required(),
+    date: Yup.string().required("Date is required").nullable(),
     venue: Yup.string().required(),
     city: Yup.string().required()    
   })
@@ -60,21 +60,21 @@ export default observer(function ActivityForm({ match, history }: RouteComponent
     };
   }, [loadActivity, match.params.id, clearActvity, initialFormState, activity.id.length]);
 
-  // const handleSubmit = () => {
-  //   // setSubmmit(false);
-  //   console.log(activity.id);
+  const handleFormSubmit = (activity: IActivity) => {
+    // setSubmmit(false);
+    console.log(activity.id);
 
-  //   if (activity.id.length === 0) {
-  //     let newActivty = {
-  //       ...activity,
-  //       id: uuid(),
-  //     };
-  //     createActivity(newActivty).then(() => history.push(`/activities/${newActivty.id}`));
-  //   } else {
-  //     editActivity(activity).then(() => history.push(`/activities/${activity.id}`));;
-  //   }
-  //   // setSubmmit(true);
-  // };
+    if (activity.id.length === 0) {
+      let newActivty = {
+        ...activity,
+        id: uuid(),
+      };
+      createActivity(newActivty).then(() => history.push(`/activities/${newActivty.id}`));
+    } else {
+      editActivity(activity).then(() => history.push(`/activities/${activity.id}`));;
+    }
+    // setSubmmit(true);
+  };
 
   // const handleChange = (
   //   event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -86,19 +86,17 @@ export default observer(function ActivityForm({ match, history }: RouteComponent
   return (
     <Grid>
       <Grid.Column width={10}>
+        <Header content="Activity Details" sub color='teal' />
         <Formik
           validationSchema={validationSchema}
           enableReinitialize
           initialValues={activity}
-          onSubmit={values => console.log(values)}>
-          {({ values: activity, handleChange, handleSubmit }) => (
+          onSubmit={values => handleFormSubmit(values)}>
+          {({handleSubmit, isValid,  isSubmitting, dirty }) => (
             <Segment clearing>
               <Form className='ui form' onSubmit={handleSubmit}>
                 <MyTextInput name='title' placeholder='Title' />
-                <MyTextInput
-                  name="title"
-                  placeholder="Title"
-                />
+                
                 <MyTextArea
                   name="description"
                   rows={3}
@@ -116,6 +114,9 @@ export default observer(function ActivityForm({ match, history }: RouteComponent
                   timeCaption='time'
                   dateFormat='MMMM d, yyyy h:mm aa'
                 />
+
+                <Header content="Location Details" sub color='teal' />
+
                 <MyTextInput
                   name="city"
                   placeholder="City"
@@ -126,6 +127,7 @@ export default observer(function ActivityForm({ match, history }: RouteComponent
                 />
                 <Button
                   loading={submitting}
+                  disabled={isSubmitting || !dirty || !isValid}
                   floated="right"
                   positive
                   type="submit"
