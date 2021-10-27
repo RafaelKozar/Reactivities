@@ -13,7 +13,6 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.7",
     "@types/uuid": "^8.3.0",
-    "@types/yup": "^0.29.11",
     "axios": "^0.21.0",
     "date-fns": "2.16.1",
     "formik": "^2.2.9",
@@ -29,7 +28,7 @@
     "semantic-ui-react": "^2.0.1",
     "typescript": "^3.7.5",
     "uuid": "^8.3.2",
-    "yup": "^0.32.9"
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -51,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/yup": "^0.29.13"
   }
 }
