@@ -1,9 +1,10 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<AppUser>
     {
         public DataContext(DbContextOptions options) : base(options)
         {            
@@ -11,17 +12,6 @@ namespace Persistence
 
         public DbSet<Valeu> Values {get; set;}
         public DbSet<Domain.Activity> Activities { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            builder.Entity<Valeu>()
-                .HasData(
-                    new Valeu {Id = 1, name = "Valeu 101"},
-                    new Valeu {Id = 2, name = "Valeu 102"},
-                    new Valeu {Id = 3, name = "Valeu 103"}
-
-                );
-            
-        }
+      
     }
 }
