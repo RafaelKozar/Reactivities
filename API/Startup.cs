@@ -5,8 +5,10 @@ using Application.Core;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +29,13 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddFluentValidation(config =>
+            services.AddControllers(opt => 
+            {
+                 AuthorizationPolicyBuilder policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser();
+                 var policyBuild = policy.Build();
+                 opt.Filters.Add(new AuthorizeFilter(policyBuild));
+            })
+            .AddFluentValidation(config =>
             {
                 config.RegisterValidatorsFromAssemblyContaining<Create>();
 
