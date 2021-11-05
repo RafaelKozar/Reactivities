@@ -34,8 +34,8 @@ export default function HomePage() {
         {/* ) : ( */}
           <Fragment>
           <Header as='h2' inverted content={`Welcome to Reactivitities`} />
-          <Button onClick={() => {}} size='huge' inverted>
-            Login
+          <Button to='/Login' as={Link} size='huge' inverted>
+            Login!
           </Button>
           <Button onClick={() => {}} size='huge' inverted>
             Register
