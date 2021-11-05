@@ -8,6 +8,14 @@ import { useStore } from "../../../app/stores/store";
 import ActivityFilters from "./ActivityFilters";
 
  export default observer(function ActivityDashBoard(){     
+  const activityStore = useStore().activityStore
+
+  useEffect(() => {
+    activityStore.loadActivities();
+  }, [activityStore]);
+
+  if (activityStore.loadingInitial) return <LoadingComponent content="Loading activities" />
+
   return (
     <Grid>
       <Grid.Column width={10}>

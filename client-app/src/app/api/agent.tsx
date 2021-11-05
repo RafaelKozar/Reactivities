@@ -86,7 +86,7 @@ const Activities = {
 
 const Account = {
     current: () => requests2.get2<User>('/account'),
-    login : (user : UserFormValues) => requests2.post2<User>('/account/login', user),
+    login : (user : UserFormValues) : Promise<User> => requests2.post2<User>('/account/login', user),
     register: (user : UserFormValues)  => requests2.post2<User>('/account/register', user)  
 }
 

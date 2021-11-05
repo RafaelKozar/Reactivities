@@ -16,16 +16,11 @@ import ServerError from '../../features/errors/ServerError';
 import LoginForm from '../../features/users/LoginForm';
 
 
-function App() {
-  const activityStore = useStore().activityStore
+function App() {  
 
   const location = useLocation();
 
-  useEffect(() => {
-    activityStore.loadActivities();
-  }, [activityStore]);
-
-  if (activityStore.loadingInitial) return <LoadingComponent content="Loading activities" />
+  
 
   return (
     <>
