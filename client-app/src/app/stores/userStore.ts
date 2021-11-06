@@ -1,3 +1,4 @@
+import { ca } from "date-fns/locale";
 import { makeAutoObservable, runInAction } from "mobx";
 import { history } from "../..";
 import agent from "../api/agent";
@@ -32,5 +33,14 @@ export default class UserStore {
         window.localStorage.removeItem('jwt')
         this.user = null
         history.push('/')
+    }
+
+    getUser = async () => {
+        try {
+            const user = await agent.Account.current()
+            runInAction(() => this.user = user)
+        } catch(err){
+            console.log(err)
+        }
     }
 }

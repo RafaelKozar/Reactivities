@@ -19,8 +19,17 @@ import LoginForm from '../../features/users/LoginForm';
 function App() {  
 
   const location = useLocation();
-
+  const {commonStore, userStore} = useStore();
   
+  useEffect(() => {
+    if(commonStore.token){
+      userStore.getUser().finally(() => commonStore.setAppLoaded())
+    } else {
+      commonStore.setAppLoaded()
+    }
+  }, [commonStore, userStore])
+
+  if (!commonStore.appLoadd) return <LoadingComponent content="Loading app..." />
 
   return (
     <>

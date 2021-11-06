@@ -14,7 +14,7 @@ import ActivityFilters from "./ActivityFilters";
     activityStore.loadActivities();
   }, [activityStore]);
 
-  if (activityStore.loadingInitial) return <LoadingComponent content="Loading activities" />
+  
 
   return (
     <Grid>
