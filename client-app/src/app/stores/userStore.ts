@@ -22,7 +22,8 @@ export default class UserStore {
             const user = await agent.Account.login(creds);
             storeee.commonStore.setToken(user.token)
             runInAction(() => this.user = user)
-            history.push('/activities')            
+            history.push('/activities')         
+            storeee.modalStore.closeModal();   
         }catch(err){
             throw err;
         }
