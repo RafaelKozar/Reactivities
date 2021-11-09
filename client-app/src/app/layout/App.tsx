@@ -28,8 +28,7 @@ function App() {
       commonStore.setAppLoaded()
     }
   }, [commonStore, userStore])
-
-  if (!commonStore.appLoadd) return <LoadingComponent content="Loading app..." />
+  
 
   return (
     <>

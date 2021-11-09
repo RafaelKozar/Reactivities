@@ -17,6 +17,12 @@ const sleep2 = (delay: number) => {
     })
 }
 
+axios.interceptors.request.use(config => {
+    const token = storeee.commonStore.token;
+    if(token) config.headers.Authorization = `Bearer ${token}`
+    return config;
+})
+
 axios.interceptors.response.use(async response => {
     await sleep(3000);
     return response;
@@ -77,7 +83,7 @@ const requests2 = {
 }
 
 const Activities = {
-    list: () : Promise<IActivity[]> => requests.get(`/activities`),
+    list: () => requests2.get2<IActivity[]>(`/activities`),
     details: (id: string) => requests.get(`/activities/${id}`),
     create: (activity: IActivity) => requests.post(`/activities`, activity),
     update: (activity: IActivity) => requests.put(`/activities/${activity.id}`, activity),
@@ -86,7 +92,7 @@ const Activities = {
 
 const Account = {
     current: () => requests2.get2<User>('/account'),
-    login : (user : UserFormValues) : Promise<User> => requests2.post2<User>('/account/login', user),
+    login : (user : UserFormValues) => requests2.post2<User>('/account/login', user),
     register: (user : UserFormValues)  => requests2.post2<User>('/account/register', user)  
 }
 
