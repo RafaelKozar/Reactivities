@@ -44,4 +44,17 @@ export default class UserStore {
             console.log(err)
         }
     }
+
+    register = async(creds : UserFormValues) => {
+        try{
+            debugger
+            const user = await agent.Account.register(creds);
+            storeee.commonStore.setToken(user.token)
+            runInAction(() => this.user = user)
+            history.push('/activities')         
+            storeee.modalStore.closeModal();   
+        }catch(err){
+            throw err;
+        }
+    }
 }
